@@ -1,0 +1,1 @@
+public enum GoodsType { Legal, Illegal }
