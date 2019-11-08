@@ -1,3 +1,5 @@
+package com.tema1.main;
+
 public class LegalGoods extends Goods {
 
     private final int kingBonus;
@@ -5,11 +7,10 @@ public class LegalGoods extends Goods {
     private final int queenBonus;
 
 
-
-    public LegalGoods(final int id, final int profit, final int penalty, final int kingBonus, final int queenBonus) {
+    public LegalGoods(final int id, final int profit, final int penalty, final int kingBonus,
+                      final int queenBonus) {
 
         super(id, GoodsType.Legal, profit, penalty);
-
 
 
         this.kingBonus = kingBonus;
@@ -19,16 +20,14 @@ public class LegalGoods extends Goods {
     }
 
 
-
-    public int getKingBonus() {
+    final int getKingBonus() {
 
         return kingBonus;
 
     }
 
 
-
-    public int getQueenBonus() {
+    final int getQueenBonus() {
 
         return queenBonus;
 
