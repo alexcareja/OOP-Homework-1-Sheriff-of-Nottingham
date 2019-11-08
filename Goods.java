@@ -1,3 +1,4 @@
+package com.tema1.main;
 
 public class Goods {
 
@@ -9,12 +10,13 @@ public class Goods {
 
     private final int penalty;
 
-    public Goods(){
-      this.id = 0;
-      this.type = GoodsType.Legal;
-      this.profit = 0;
-      this.penalty = 0;
+    public Goods() {
+        this.id = 0;
+        this.type = GoodsType.Legal;
+        this.profit = 0;
+        this.penalty = 0;
     }
+
     public Goods(final int id, final GoodsType type, final int profit, final int penalty) {
 
         this.id = id;
@@ -28,13 +30,11 @@ public class Goods {
     }
 
 
-
     public final int getId() {
 
         return id;
 
     }
-
 
 
     public final GoodsType getType() {
@@ -44,7 +44,6 @@ public class Goods {
     }
 
 
-
     public final int getProfit() {
 
         return profit;
@@ -52,20 +51,9 @@ public class Goods {
     }
 
 
-
     public final int getPenalty() {
 
         return penalty;
 
-    }
-
-    @Override
-    public String toString() {
-        return "Goods{" +
-                "id=" + id +
-                ", type=" + type +
-                ", profit=" + profit +
-                ", penalty=" + penalty +
-                '}';
     }
 }
