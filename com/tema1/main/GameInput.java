@@ -15,7 +15,6 @@ public class GameInput {
     private int mRounds;
 
 
-
     public GameInput() {
 
         mAssetOrder = null;
@@ -27,8 +26,8 @@ public class GameInput {
     }
 
 
-
-    public GameInput(final int rounds, final ArrayList<Integer> assets, final List<String> players) {
+    public GameInput(final int rounds, final ArrayList<Integer> assets,
+                     final List<String> players) {
 
         mAssetOrder = assets;
 
@@ -39,13 +38,11 @@ public class GameInput {
     }
 
 
-
     public final ArrayList<Integer> getAssetIds() {
 
         return mAssetOrder;
 
     }
-
 
 
     public final List<String> getPlayerNames() {
@@ -55,7 +52,6 @@ public class GameInput {
     }
 
 
-
     public final int getRounds() {
 
         return mRounds;
@@ -63,13 +59,11 @@ public class GameInput {
     }
 
 
-
     public final boolean isValidInput() {
 
         boolean membersInstantiated = mAssetOrder != null && mPlayersOrder != null;
 
         boolean membersNotEmpty = mAssetOrder.size() > 0 && mPlayersOrder.size() > 0 && mRounds > 0;
-
 
 
         return membersInstantiated && membersNotEmpty;

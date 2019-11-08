@@ -14,7 +14,6 @@ public class GameInputLoader {
     private final String mOutputPath;
 
 
-
     public GameInputLoader(final String inputPath, final String outputPath) {
 
         mInputPath = inputPath;
@@ -24,8 +23,7 @@ public class GameInputLoader {
     }
 
 
-
-    public GameInput load() {
+    final GameInput load() {
 
         ArrayList<Integer> assetsIds = new ArrayList<>();
 
@@ -52,15 +50,15 @@ public class GameInputLoader {
             s = input.nextLine();
             String[] words = s.split("\\s+");
 
-            for(int i = 0; i < noPlayers; ++i)
-
+            for (int i = 0; i < noPlayers; ++i) {
                 playerOrder.add(words[i]);
+            }
 
             noGoods = input.nextInt();
 
-            for(int i = 0; i < noGoods; ++i)
-
+            for (int i = 0; i < noGoods; ++i) {
                 assetsIds.add(input.nextInt());
+            }
 
             input.close();
 
