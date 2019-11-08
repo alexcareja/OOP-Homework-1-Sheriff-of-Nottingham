@@ -1,53 +1,48 @@
+package com.tema1.main;
+
 import java.util.ArrayList;
 
 public class Sack {
     private int bribe;
-    private int item_declared;
+    private int itemDeclared;
     private ArrayList<Goods> items = new ArrayList<>();
 
-    public Sack(){
+    public Sack() {
         this.bribe = 0;
-        this.item_declared = 0;
+        this.itemDeclared = 0;
     }
 
-    public int getItem_declared(){
-        return this.item_declared;
+    final int getitemDeclared() {
+        return this.itemDeclared;
     }
 
-    public int getBribe(){
+    final int getBribe() {
         return this.bribe;
     }
 
-    public ArrayList<Goods> getItems(){
+    final ArrayList<Goods> getItems() {
         return this.items;
     }
 
-    public void createSack(int bribe, int item_declared, ArrayList<Goods> items){
-        this.bribe = bribe;
-        this.item_declared = item_declared;
-        this.items.addAll(items);
+    final void createSack(final int newBribe, final int newItemDeclared,
+                                 final ArrayList<Goods> newItems) {
+        this.bribe = newBribe;
+        this.itemDeclared = newItemDeclared;
+        this.items.addAll(newItems);
     }
 
-    public void clearSack(){
+    final void clearSack() {
         this.bribe = 0;
-        this.item_declared = 0;
+        this.itemDeclared = 0;
         this.items.clear();
     }
 
-    public void addToSack(Goods good){
+    final void addToSack(final Goods good) {
         this.items.add(good);
     }
 
-    public void removeFromSack(Goods good){
+    final void removeFromSack(final Goods good) {
         this.items.remove(good);
-}
-
-    @Override
-    public String toString() {
-        return "com.tema1.main.Sack{" +
-                "bribe=" + bribe +
-                ", item_declared=" + item_declared +
-                ", items=" + items +
-                '}';
     }
+
 }
