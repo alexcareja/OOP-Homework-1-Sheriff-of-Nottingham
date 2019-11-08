@@ -1,25 +1,27 @@
+package com.tema1.main;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Utils {
-    private int no_players;
-    static Utils instance = null;
+final class Utils {
+    private int noPlayers;
+    private static Utils instance = null;
 
-    private Utils(int no_players){
-        this.no_players = no_players;
+    private Utils(final int noPlayers) {
+        this.noPlayers = noPlayers;
     }
 
-    static Utils getInstance(int no_players){
-        if(instance == null){
-            instance = new Utils(no_players);
+    static Utils getInstance(final int noPlayers) {
+        if (instance == null) {
+            instance = new Utils(noPlayers);
         }
         return instance;
     }
 
-    Goods getBestCard(ArrayList<Goods> hand){
-        int max_profit = 0;
-        Goods best_item = new Goods();
+    Goods getBestCard(final ArrayList<Goods> hand) {
+        int maxProfit = 0;
+        Goods bestItem = new Goods();
         Map<Goods, Integer> profit = new HashMap<>();
 
         for (Goods good : hand) {
@@ -27,22 +29,22 @@ public class Utils {
         }
 
         for (Goods key : profit.keySet()) {
-            if(profit.get(key) > max_profit){
-                max_profit = profit.get(key);
-                best_item = key;
+            if (profit.get(key) > maxProfit) {
+                maxProfit = profit.get(key);
+                bestItem = key;
                 continue;
             }
-            if(profit.get(key) == max_profit && key.getProfit() == best_item.getProfit()
-                    && key.getId() > best_item.getId()){
-                best_item = key;
+            if (profit.get(key) == maxProfit && key.getProfit() == bestItem.getProfit()
+                    && key.getId() > bestItem.getId()) {
+                bestItem = key;
             }
         }
-        return best_item;
+        return bestItem;
     }
 
-    boolean neighbour(BasePlayer p1, BasePlayer p2){
-        return p1.getId() == p2.getId() + 1 || p1.getId() == p2.getId() - 1 ||
-                (p1.getId() == no_players - 1 && p2.getId() == 0) ||
-                (p1.getId() == 0 && p2.getId() == no_players - 1);
+    boolean neighbour(final BasePlayer p1, final BasePlayer p2) {
+        return p1.getId() == p2.getId() + 1 || p1.getId() == p2.getId() - 1
+                || (p1.getId() == noPlayers - 1 && p2.getId() == 0)
+                || (p1.getId() == 0 && p2.getId() == noPlayers - 1);
     }
 }
