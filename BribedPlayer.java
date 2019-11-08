@@ -1,77 +1,77 @@
+package com.tema1.main;
+
 import java.util.ArrayList;
 
 public class BribedPlayer extends BasePlayer {
 
-    public BribedPlayer(int id){
+    BribedPlayer(final int id) {
         super(id);
     }
 
-    public void createSack(int round){
+    public final void createSack(final int round) {
         this.sack.clearSack();
         ArrayList<Goods> items = new ArrayList<>();
         int ok = 0;
-        for(Goods good : this.hand){
-            if(good.getType() == GoodsType.Illegal){
+        for (Goods good : this.hand) {
+            if (good.getType() == GoodsType.Illegal) {
                 ok = 1;
                 break;
             }
         }
-        if(ok == 0 || this.gold <= 5){    // Daca nu are niciun ilegal -> stategia de baza
+        if (ok == 0 || this.gold <= Constants.MIN_GOLD_BRIBED) {
+            // Daca nu are niciun ilegal -> stategia de baza
             super.createSack(round);
             return;
         }
-        ArrayList<Goods> cards = new ArrayList<>();
-        cards.addAll(this.hand);
-        ArrayList<Goods> sorted_cards = new ArrayList<>();
-        Goods g = new Goods();
+        ArrayList<Goods> cards = new ArrayList<>(this.hand);
+        ArrayList<Goods> sortedCards = new ArrayList<>();
+        Goods g;
         Utils utils = Utils.getInstance(0);
-        while(cards.size() > 0){
+        while (cards.size() > 0) {
             g = utils.getBestCard(cards);
             cards.remove(g);
-            sorted_cards.add(g);
+            sortedCards.add(g);
         }
-        /*cards.sort((Goods g1, Goods g2) -> g2.getProfit() - g1.getProfit());*/
         int penalty = 0;
-        int no_illegals = 0;
-        for(Goods good : sorted_cards){
-            if(items.size() == 8){
+        int noIllegals = 0;
+        for (Goods good : sortedCards) {
+            if (items.size() == Constants.MAX_ITEMS_IN_SACK) {
                 break;
             }
-            if(penalty + good.getPenalty() < this.gold){
+            if (penalty + good.getPenalty() < this.gold) {
                 penalty += good.getPenalty();
                 items.add(good);
-                if(good.getType() == GoodsType.Illegal){
-                    no_illegals++;
+                if (good.getType() == GoodsType.Illegal) {
+                    noIllegals++;
                 }
             }
         }
-        int bribe = 5;
-        if(no_illegals > 2){
-            bribe = 10;
+        int bribe = Constants.SMALL_BRIBE;
+        if (noIllegals > 2) {
+            bribe = Constants.BIG_BRIBE;
         }
         this.gold -= bribe;
         this.sack.createSack(bribe, 0, items);
     }
-
-    public ArrayList<Goods> verify(BasePlayer player, int initcoins){ // Returneaza cartile confiscate
+    // Returneaza cartile confiscate
+    final ArrayList<Goods> verify(final BasePlayer player, final int initcoins) {
         Utils utils = Utils.getInstance(0);
-        Sack player_sack = player.getSack();
+        Sack playerSack = player.getSack();
         // Verifica doar vecinii
-        if(utils.neighbour(this, player)){
-            return super.verify(player, initcoins);
-//            if(initcoins >= 16) {
-//                return super.verify(player, initcoins);
-//            }
-//            player.updateGold(player_sack.getBribe());
-//            player.addToStall(player_sack.getItems());  // Playerul isi pune obiectele pe taraba
-//            return new ArrayList<>();
+        if (utils.neighbour(this, player)) {
+            if (initcoins >= Constants.MIN_GOLD_INSPECT) {
+                return super.verify(player, initcoins);
+            }
+            player.updateGold(playerSack.getBribe());
+            player.addToStall(playerSack.getItems());  // Playerul isi pune obiectele pe taraba
+            return new ArrayList<>();
         }
-        this.gold += player_sack.getBribe();
+        this.gold += playerSack.getBribe();
         player.addToStall(player.getSack().getItems());
         return new ArrayList<>();
     }
 
-    public void printScore(){
+    final void printScore() {
         System.out.println(this.id + " BRIBED " + this.score);
     }
 }
