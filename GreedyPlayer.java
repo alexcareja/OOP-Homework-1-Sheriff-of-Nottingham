@@ -9,16 +9,16 @@ public class GreedyPlayer extends BasePlayer {
     }
 
     final void createSack(final int round) {
-        /*System.out.println("GREEDY round " + round);
-        System.out.println(this.hand);*/
+        // Creeaza un sac normal
         super.createSack(round);
-        if (round % 2 == 0) {
+        if (round % 2 == 0) {   // Daca runda e para, adauga un ilegal (daca are & poate)
             if (sack.getItems().size() >= Constants.MAX_ITEMS_IN_SACK
                     || this.gold < Constants.MIN_GOLD_BAG) {
                 return;
             }
             Goods maxProfitItem = new Goods();
             int ok = 0;
+            // Caut ilegalul cu cel mai mare profit
             for (Goods good : hand) {
                 if (good.getType() == GoodsType.Illegal
                         && good.getProfit() > maxProfitItem.getProfit()) {
@@ -35,6 +35,7 @@ public class GreedyPlayer extends BasePlayer {
     final ArrayList<Goods> verify(final BasePlayer player, final int initcoins) {
         int bribe = player.getSack().getBribe();
         ArrayList<Goods> items = new ArrayList<>();
+        // Daca exista bribe: ia bribe si nu inspecteaza sacul; else: inspecteaza
         if (bribe > 0) {
             this.gold += bribe;
             player.addToStall(player.getSack().getItems());
