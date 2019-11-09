@@ -12,6 +12,7 @@ public class BribedPlayer extends BasePlayer {
         this.sack.clearSack();
         ArrayList<Goods> items = new ArrayList<>();
         int ok = 0;
+        // Caut daca are macar un ilegal
         for (Goods good : this.hand) {
             if (good.getType() == GoodsType.Illegal) {
                 ok = 1;
@@ -19,7 +20,7 @@ public class BribedPlayer extends BasePlayer {
             }
         }
         if (ok == 0 || this.gold <= Constants.MIN_GOLD_BRIBED) {
-            // Daca nu are niciun ilegal -> stategia de baza
+            // Daca nu are niciun ilegal sau daca nu are destui bani-> stategia de baza
             super.createSack(round);
             return;
         }
@@ -27,6 +28,7 @@ public class BribedPlayer extends BasePlayer {
         ArrayList<Goods> sortedCards = new ArrayList<>();
         Goods g;
         Utils utils = Utils.getInstance(0);
+        // Sortez cartile din mana
         while (cards.size() > 0) {
             g = utils.getBestCard(cards);
             cards.remove(g);
@@ -34,6 +36,7 @@ public class BribedPlayer extends BasePlayer {
         }
         int penalty = 0;
         int noIllegals = 0;
+        // Adaug cartile cele mai valoroase in sac in limita banilor
         for (Goods good : sortedCards) {
             if (items.size() == Constants.MAX_ITEMS_IN_SACK) {
                 break;
@@ -66,6 +69,7 @@ public class BribedPlayer extends BasePlayer {
             player.addToStall(playerSack.getItems());  // Playerul isi pune obiectele pe taraba
             return new ArrayList<>();
         }
+        // Pe cine nu e vecin nu inspecteaza si ia mita
         this.gold += playerSack.getBribe();
         player.addToStall(player.getSack().getItems());
         return new ArrayList<>();

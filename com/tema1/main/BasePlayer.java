@@ -42,8 +42,8 @@ public class BasePlayer {
     }
 
     final void drawHand(final ArrayList<Goods> deck) {
-        this.hand.clear();
-        this.hand.addAll(deck.subList(s, s + Constants.NO_CARDS_IN_HAND));
+        this.hand.clear();  // Arde cartile vechi
+        this.hand.addAll(deck.subList(s, s + Constants.NO_CARDS_IN_HAND)); // ia 10 carti
         s += Constants.NO_CARDS_IN_HAND;
     }
 
@@ -75,7 +75,7 @@ public class BasePlayer {
                     maxProfitItem = good;
                 }
             }
-            Goods good = new Goods();
+            Goods good;
             for (int i = 0; i < this.hand.size(); i++) {
                 good = this.hand.get(i);
                 if (maxProfitItem.getId() == good.getId()) {
@@ -92,11 +92,11 @@ public class BasePlayer {
         int maxFr = 0;
         Goods maxFrItem = new Goods();
         Map<Goods, Integer> frequency = new HashMap<>();
-
+        // Calculez frecventa fiecarui bun
         for (Goods good : hand) {
             frequency.put(good, frequency.getOrDefault(good, 0) + 1);
         }
-
+        // Aleg bunurle cu cea mai mare frecventa, profit, id
         for (Goods key : frequency.keySet()) {
             if (frequency.get(key) > maxFr && key.getType() == GoodsType.Legal) {
                 maxFr = frequency.get(key);
@@ -177,9 +177,6 @@ public class BasePlayer {
         // Se achita penalty
         this.gold += penalty;
         player.updateGold(-penalty);
-        /*System.out.println("Penalty = " + penalty);
-        System.out.println("sheriff gold = " + this.gold);
-        System.out.println("comerciant gold = " + player.getGold());*/
         return confiscated;
     }
 
@@ -200,11 +197,10 @@ public class BasePlayer {
             }
         }
         this.stall.addAll(bonusItems);
-        //System.out.println(this.gold);
         this.score += this.gold;
     }
 
-    final int getCardFrequency(final int goodId) {
+    final int getCardFrequency(final int goodId) {  // returneaza frecventa cartii specificate
         int counter = 0;
         for (Goods goodie : this.stall) {
             if (goodie.getId() == goodId) {

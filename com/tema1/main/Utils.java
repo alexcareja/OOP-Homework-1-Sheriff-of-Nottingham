@@ -12,13 +12,14 @@ final class Utils {
         this.noPlayers = noPlayers;
     }
 
-    static Utils getInstance(final int noPlayers) {
+    static Utils getInstance(final int noPlayers) { // Singleton method
         if (instance == null) {
             instance = new Utils(noPlayers);
         }
         return instance;
     }
 
+    // Returneaza cea mai buna carte din hand
     Goods getBestCard(final ArrayList<Goods> hand) {
         int maxProfit = 0;
         Goods bestItem = new Goods();
@@ -42,6 +43,7 @@ final class Utils {
         return bestItem;
     }
 
+    // Returneaza true daca sunt vecini p1 si p2
     boolean neighbour(final BasePlayer p1, final BasePlayer p2) {
         return p1.getId() == p2.getId() + 1 || p1.getId() == p2.getId() - 1
                 || (p1.getId() == noPlayers - 1 && p2.getId() == 0)
