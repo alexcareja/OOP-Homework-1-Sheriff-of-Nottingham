@@ -28,7 +28,7 @@ public final class Main {
 
         // Declararea jucatorilor
         ArrayList<BasePlayer> players = new ArrayList<>();
-
+        // Alocarea jucatorilor
         int id = 0;
         for (String s : gameInput.getPlayerNames()) {
             switch (s) {
@@ -50,12 +50,13 @@ public final class Main {
         int noPlayerss = playerNames.size();
         Utils.getInstance(noPlayerss);  // Setez noPlayerss in Utils
         int noRounds = gameInput.getRounds();
-        if (noRounds > Constants.MAX_ROUNDS) {
+        if (noRounds > Constants.MAX_ROUNDS) {  // Maxim 5 runde
             noRounds = Constants.MAX_ROUNDS;
         }
         BasePlayer p;
         BasePlayer sheriff;
         int initgold;
+        // Desfasurarea jocului
         for (int round = 1; round <= noRounds; round++) {
             for (int subRound = 1; subRound <= noPlayerss; subRound++) {
                 sheriff = players.get(subRound - 1);
@@ -64,6 +65,7 @@ public final class Main {
                     if (i == subRound) {
                         continue;
                     }
+                    // p = player curent, diferit de sheriff
                     p = players.get(i - 1);
                     p.drawHand(deck);   // Ia 10 carti
                     p.createSack(round);     // Creeaza sacul
@@ -72,17 +74,21 @@ public final class Main {
                 }
             }
         }
+        // Vinderea bunurilor + adaugarea bonusurilor ilegale
         for (BasePlayer plr : players) {
             plr.sellItems();
         }
         Goods good;
         int maxFreq, secondMax, freq, bonus;
-        for (int i = 0; i <= Constants.HIGHEST_LEGAL_ID; i++) {    // Crearea map-ului
+        // Acordarea bonusurilor KING si QUEEN
+        for (int i = 0; i <= Constants.HIGHEST_LEGAL_ID; i++) {
             maxFreq = 0;
             secondMax = 0;
             good = factory.getGoodsById(i);
             bonus = ((LegalGoods) good).getKingBonus();
+            // bonusMap se face pentru fiecare item pentru a determina king si queen
             Map<BasePlayer, Integer> bonusMap = new HashMap<>();
+            // Calculez king frequency si queen frequency
             for (int j = 0; j < noPlayerss; j++) {
                 p = players.get(j);
                 freq = p.getCardFrequency(good.getId());
@@ -97,6 +103,7 @@ public final class Main {
                 }
 
             }
+            // Acordarea bonusului King + Queen(daca are acleasi numar de bunuri)
             for (BasePlayer plr : players) {
                 if (bonusMap.get(plr) == maxFreq && maxFreq != 0) {
                     // king bonus -> queen bonus -> break
@@ -108,6 +115,7 @@ public final class Main {
                     bonus = ((LegalGoods) good).getQueenBonus();
                 }
             }
+            // Acordarea bonusului Queen daca nu s-a acordat deja
             if (bonus != 0) {
                 for (BasePlayer plr : players) {
                     if (bonusMap.get(plr) == secondMax && secondMax != 0) {
@@ -117,6 +125,7 @@ public final class Main {
                 }
             }
         }
+        // Sortarea dupa scor si printare
         players.sort((BasePlayer p1, BasePlayer p2) -> p2.getScore() - p1.getScore());
         for (BasePlayer plr : players) {
             plr.printScore();
